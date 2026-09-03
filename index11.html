@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoDrive Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        AutoDrive Center
+    </div>
+
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#configurator">Конфигуратор</a>
+    </nav>
+
+    <button id="themeToggle">
+        🌙 Тема
+    </button>
+
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+
+        <h2>Продажа и обслуживание автомобилей</h2>
+
+        <p>
+            Подберите автомобиль своей мечты
+        </p>
+
+    </div>
+
+    <img src="Images/service.jpg" alt="Автомобиль">
+</section>
+
+<section class="catalog" id="catalog">
+
+    <h2>Популярные автомобили</h2>
+
+    <div class="cards">
+        <div class="car-card">
+
+            <img src="Images/car1.jpg" alt="BMW">
+
+            <h3>BMW X5</h3>
+            <p>От 40 000 $</p>
+
+            <button>Подробнее</button>
+
+        </div>
+
+        <div class="car-card">
+
+            <img src="Images/car2.jpg" alt="Audi">
+
+            <h3>Audi A6</h3>
+            <p>От 35 000 $</p>
+
+            <button>Подробнее</button>
+
+        </div>
+
+        <div class="car-card">
+
+            <img src="Images/car3.jpg" alt="Toyota">
+
+            <h3>Toyota Camry</h3>
+            <p>От 22 000 $</p>
+
+            <button>Подробнее</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="configurator" id="configurator">
+
+    <div class="config-box">
+
+        <div class="config-image">
+            <img id="carPreview" alt="preview">
+        </div>
+
+        <div class="config-form">
+
+            <h2>Онлайн-конфигуратор</h2>
+
+            <label>Марка</label>
+            <select id="brand">
+                <option value="BMW">BMW</option>
+                <option value="Audi">Audi</option>
+                <option value="Toyota">Toyota</option>
+            </select>
+
+            <label>Тип кузова</label>
+            <select id="body">
+                <option value="sedan">Седан</option>
+                <option value="suv">SUV</option>
+                <option value="coupe">Купе</option>
+            </select>
+
+            <label>Объем двигателя</label>
+            <select id="engine">
+                <option value="1.6">1.6</option>
+                <option value="2.0">2.0</option>
+                <option value="3.0">3.0</option>
+            </select>
+
+            <label>Цвет</label>
+            <select id="color">
+                <option value="white">Белый</option>
+                <option value="black">Черный</option>
+                <option value="red">Красный</option>
+            </select>
+
+            <label>Салон</label>
+            <select id="interior">
+                <option value="fabric">Ткань</option>
+                <option value="leather">Кожа</option>
+            </select>
+
+            <div class="options">
+
+                <label>
+                    <input type="checkbox" id="climate">
+                    Климат-контроль
+                </label>
+
+                <label>
+                    <input type="checkbox" id="multimedia">
+                    Мультимедиа
+                </label>
+
+            </div>
+
+            <div class="price-block">
+
+                <h3>
+                    Цена:
+                    <span id="price">0</span>$
+                </h3>
+
+                <button id="buyBtn">Купить</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="animationSection" class="hidden active-animation">
+
+    <div class="road"></div>
+    <div class="car-animation">
+        <div class="animated-car">
+            <div class="car-body"></div>
+            <div class="car-top"></div>
+            <div class="wheel wheel-left"></div>
+            <div class="wheel wheel-right"></div>
+        </div>
+
+        <h2 class="success-message">Заявка принята!</h2>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+const themeToggle = document.getElementById("themeToggle");
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+
+themeToggle.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    }
+    else {
+        localStorage.setItem("theme", "light");
+    }
+
+});
+
+const prices = {
+
+    brand: {
+        BMW: 40000,
+        Audi: 35000,
+        Toyota: 22000
+    },
+
+    body: {
+        sedan: 2000,
+        suv: 5000,
+        coupe: 3000
+    },
+
+    engine: {
+        "1.6": 1000,
+        "2.0": 3000,
+        "3.0": 7000
+    },
+
+    interior: {
+        fabric: 500,
+        leather: 2500
+    },
+
+    options: {
+        climate: 1200,
+        multimedia: 1800
+    }
+
+};
+
+const carImages = {
+    BMW: "Images/car1.jpg",
+    Audi: "Images/car2.jpg",
+    Toyota: "Images/car3.jpg"
+};
+
+const brand = document.getElementById("brand");
+const body = document.getElementById("body");
+const engine = document.getElementById("engine");
+const color = document.getElementById("color");
+const interior = document.getElementById("interior");
+const climate = document.getElementById("climate");
+const multimedia = document.getElementById("multimedia");
+const priceText = document.getElementById("price");
+const carPreview = document.getElementById("carPreview");
+const buyBtn = document.getElementById("buyBtn");
+const animationSection = document.getElementById("animationSection");
+const savedConfig = localStorage.getItem("carConfig");
+
+if (savedConfig) {
+    const config = JSON.parse(savedConfig);
+    brand.value = config.brand;
+    body.value = config.body;
+    engine.value = config.engine;
+    color.value = config.color;
+    interior.value = config.interior;
+    climate.checked = config.climate;
+    multimedia.checked = config.multimedia;
+}
+
+function calculatePrice() {
+
+    let total = 0;
+
+    total += prices.brand[brand.value];
+    total += prices.body[body.value];
+    total += prices.engine[engine.value];
+    total += prices.interior[interior.value];
+
+    if (climate.checked) {
+        total += prices.options.climate;
+    }
+
+    if (multimedia.checked) {
+        total += prices.options.multimedia;
+    }
+
+    priceText.textContent = total;
+
+    carPreview.src = carImages[brand.value];
+
+    const config = {
+        brand: brand.value,
+        body: body.value,
+        engine: engine.value,
+        color: color.value,
+        interior: interior.value,
+        climate: climate.checked,
+        multimedia: multimedia.checked,
+        total: total
+
+    };
+
+    localStorage.setItem(
+        "carConfig",
+        JSON.stringify(config)
+    );
+
+}
+
+brand.addEventListener("change", calculatePrice);
+body.addEventListener("change", calculatePrice);
+engine.addEventListener("change", calculatePrice);
+color.addEventListener("change", calculatePrice);
+interior.addEventListener("change", calculatePrice);
+climate.addEventListener("change", calculatePrice);
+multimedia.addEventListener("change", calculatePrice);
+
+buyBtn.addEventListener("click", () => {
+
+    animationSection.classList.remove("hidden");
+
+    const car = document.querySelector(".animated-car");
+    const message = document.querySelector(".success-message");
+
+    message.classList.remove("show-message");
+
+    car.classList.remove("car-drive");
+
+    void car.offsetWidth;
+
+    car.classList.add("car-drive");
+
+    setTimeout(() => {
+        message.classList.add("show-message");
+    }, 500);
+
+});
+
+calculatePrice();
+
+</script>
+
+</body>
+</html>
